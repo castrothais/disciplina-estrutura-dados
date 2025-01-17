@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1732541939 source:c:\users\thaís\desktop\home\sistemas-informacao\2 - periodo\github\disciplina-estrutura-dados\lista de exericio 2\questao-4\main.c
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+

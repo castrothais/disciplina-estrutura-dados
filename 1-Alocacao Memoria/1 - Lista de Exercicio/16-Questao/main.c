@@ -5,6 +5,7 @@
 #define TOTALNOTAS 5
 
 float calcularMediaAtleta(int *nota);
+float porcentagemAbaixodaMedia(int *nota, float media);
 float porcentagemAcimadaMedia(int *nota, float media);
 int calcularMelhorNota(int *nota);
 int calcularMenorNota(int *nota);
@@ -49,6 +50,7 @@ int main() {
     printf("\nMenor nota obtida pelo atleta: %d\n", calcularMenorNota(nota));
     printf("\nPorcentagem de pontuações acima da média do atleta: %.2f%%\n", porcentagemAcimadaMedia(nota, media));
     printf("\nPorcentagem de pontuações abaixo da média do atleta: %.2f%%\n", porcentagemAbaixodaMedia(nota, media));
+    printf("\nQuantidade de Juizes que atribuiram a maior nota: %d \n", numeroJuizesAtribuiramNotaBoa(nota));
     free(nota);
     return 0;
 }
@@ -100,5 +102,20 @@ float porcentagemAbaixodaMedia (int *nota, float media) {
             somaAbaixodaMedia ++;
         }
     }
-    return (float)(somaAbaixodaMedia * 100) / TOTALNOTAS;
+return (float)(somaAbaixodaMedia * 100) / TOTALNOTAS;
+}
+
+int numeroJuizesAtribuiramNotaBoa(int *nota) {
+    int quantidade = 0;
+    int melhorPontuacao = calcularMelhorNota(nota);
+
+    for(int i = 0; i < TOTALNOTAS; i++)
+    {
+        if(*(nota + i) == melhorPontuacao)
+        {
+            quantidade++;
+        }
+    }
+    return quantidade;
+
 }
