@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1738361776 source:c:\users\thaís\desktop\home\sistemas-informacao\2 - periodo\3 - estrutura de dados\github\disciplina-estrutura-dados\6-recursividade\atividades ebook\imprimir_pares\main.c
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+

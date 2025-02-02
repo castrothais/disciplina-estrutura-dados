@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1738247049 source:c:\users\thaís\desktop\home\sistemas-informacao\2 - periodo\3 - estrutura de dados\github\disciplina-estrutura-dados\extras - recursividade e lista encadeada\multiplicacao2numeros\main.c
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+
