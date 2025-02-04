@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include<stdlib.h>
 #include<locale.h>
-
 struct EstruturaAluno {
     int matricula;
     char *nome;
@@ -10,7 +9,10 @@ struct EstruturaAluno {
     struct EstruturaAluno *proximo;
 };
 
+int tamanhoLista = 0;
+
 typedef struct EstruturaAluno Aluno;
+
 
 Aluno *insereInicio(Aluno *atual, Aluno no) {
 
@@ -29,6 +31,7 @@ Aluno *insereInicio(Aluno *atual, Aluno no) {
            novo->proximo = atual;
         }
     }
+    tamanhoLista++;
     return novo;
 }
 
@@ -70,6 +73,7 @@ Aluno *insereFinal(Aluno *atual, Aluno no) {
             }
             aux->proximo = novo;
         }
+    tamanhoLista ++;
     return atual; // Aqui retornou o nó atual, que no caso é o primeiro, pois o novo nó foi inserido na última posição
 }
 
@@ -99,11 +103,80 @@ Aluno *removerInicio(Aluno *atual) {
     Aluno *novoInicio = atual->proximo;
     free(atual);
 
+    tamanhoLista--;
     return novoInicio;
 }
 
+Aluno *removerFinal(Aluno *atual) {
+  Aluno *aux;
 
-//Aluno *remove(Aluno *atual, int matricula);
+  if(atual == NULL) {
+    printf("A lista está vazia!");
+    return NULL;
+  }
+
+  if(atual->proximo == NULL) {
+    free(atual);
+    return NULL;
+  }
+
+  aux = atual;
+
+  while(aux->proximo->proximo != NULL) {
+    aux = aux->proximo;
+  }
+
+  free(aux->proximo);
+  aux->proximo = NULL;
+
+  tamanhoLista--;
+  return atual;
+
+}
+
+Aluno *removeAlunoMatriculado(Aluno *atual, int matricula) {
+    if (atual == NULL) {
+        printf("A lista está vazia!\n");
+        return NULL;
+    }
+
+
+    if (atual->matricula == matricula) {
+        Aluno *temp = atual;
+        atual = atual->proximo;
+        free(temp);
+        return atual;
+    }
+
+    Aluno *aux = atual;
+    while (aux->proximo != NULL && aux->proximo->matricula != matricula) {
+        aux = aux->proximo;
+    }
+
+    if (aux->proximo != NULL) {
+        Aluno *temp = aux->proximo;
+        aux->proximo = aux->proximo->proximo;
+        free(temp);
+    } else {
+        printf("Matrícula %d não encontrada na lista!\n", matricula);
+    }
+    tamanhoLista--;
+    return atual;
+}
+
+float calcularMedia(Aluno *atual) {
+    float somaNotas = atual->nota;
+    if(atual == NULL) {
+        printf("A lista está vazia!");
+        return;
+    }
+    while(atual->proximo != NULL) {
+        somaNotas += atual->proximo->nota;
+        atual = atual->proximo;
+    }
+    return somaNotas/tamanhoLista;
+}
+
 
 int main() {
 
@@ -116,9 +189,6 @@ int main() {
     no.nome = "Flavio";
     no.nota = 10.0;
 
-  listaAluno = insereInicio(listaAluno, no);
-  imprimirLista(listaAluno);
-
     Aluno no2;
     no2.matricula = 321;
     no2.nome = "Tatiana";
@@ -129,15 +199,30 @@ int main() {
     no3.nome = "José";
     no3.nota = 8.9;
 
+  // INSERIR NO INICIO DA LISTA
+  listaAluno = insereInicio(listaAluno, no);
+  imprimirLista(listaAluno);
+  printf("\nTAMANHO DA LISTA: %d", tamanhoLista);
+
+  // INSERIR NO FINAL DA LISTA
   listaAluno = insereFinal(listaAluno,no2);
   imprimirLista(listaAluno);
 
+  printf("%.2f", calcularMedia(listaAluno));
+
+  // REMOVENDO INICIO DA LISTA
+  listaAluno = removerInicio(listaAluno);
+  imprimirLista(listaAluno);
+
+  // REMOVENDO FINAL DA LISTA
+  listaAluno = removerFinal(listaAluno);
+  imprimirLista(listaAluno);
+
+  // BUSCAR ATRAVÉS DA MATRICULA
   buscarMatricula(listaAluno, no.matricula);
 
-
-
-  printf("\n ______REMOVENDO NO INÍCIO:______");
-  listaAluno = removerInicio(listaAluno);
+  // REMOVENDO ATRAVÉS DA MATRÍCULA
+  listaAluno = removeAlunoMatriculado(listaAluno, 111);
   imprimirLista(listaAluno);
 
 
